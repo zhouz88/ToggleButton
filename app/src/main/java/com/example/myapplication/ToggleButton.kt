@@ -72,6 +72,8 @@ class ToggleButton : ViewGroup {
                 if (!mScroller.isFinished) {
                     mScroller.abortAnimation()
                 }
+                // 由于不是 viewgroup 不是 clickable。 此处true会直接消费该事件。接下来的背景move事件都会来这里消费
+                // return true
             }
             MotionEvent.ACTION_MOVE -> {
                 val deltaX = mLastX - x
@@ -83,6 +85,8 @@ class ToggleButton : ViewGroup {
                     return true
                 }
                 scrollBy(deltaX, 0)
+                mLastX = x
+                return true
             }
             MotionEvent.ACTION_UP -> {
                 //autoScroll()
@@ -102,9 +106,10 @@ class ToggleButton : ViewGroup {
                 }
                 mScroller.startScroll(/* startX */ scrollX,/* startY */0,/* dx */deltaX,/* dy */0,/* duration */500)
                 invalidate()
+                mLastX = x
+                return true
             }
         }
-        mLastX = x
-        return super.onTouchEvent(ev)
+        return false
     }
 }
