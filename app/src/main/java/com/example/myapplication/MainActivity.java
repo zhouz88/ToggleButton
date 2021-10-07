@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.graphics.drawable.AnimationDrawable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 

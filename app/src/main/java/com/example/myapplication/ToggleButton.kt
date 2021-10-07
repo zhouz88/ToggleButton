@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -29,7 +30,10 @@ class ToggleButton : ViewGroup {
         setBackgroundResource(R.mipmap.background)
         val imageView = ImageView(context)
         imageView.setBackgroundResource(R.mipmap.slide)
-        imageView.setOnClickListener { startScrollAnimation(end, getAnimationEnd()) }
+        imageView.setOnClickListener {
+            val start = end
+            startScrollAnimation(start, getAnimationClick())
+        }
         addView(imageView)
     }
 
@@ -91,7 +95,7 @@ class ToggleButton : ViewGroup {
         return super.onTouchEvent(ev)
     }
 
-    fun getAnimationEnd() : Int {
+    fun getAnimationEnd(): Int {
         end = 0
         if (scrollX < -measuredWidth / 4) {
             end = -mScrollerWidth
@@ -99,8 +103,22 @@ class ToggleButton : ViewGroup {
         return end
     }
 
+    fun getAnimationClick(): Int {
+        return if (end == 0) {
+            end = -mScrollerWidth
+            end
+        } else {
+            end = 0
+            end
+        }
+    }
+
     fun startScrollAnimation(start: Int, end: Int) {
         mScroller.startScroll(/* startX */ start,/* startY */0,/* dx */end - start,/* dy */0,/* duration */500)
         invalidate()
+    }
+
+    override fun invalidate() {
+        super.invalidate()
     }
 }
