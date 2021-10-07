@@ -1,9 +1,9 @@
 package com.example.myapplication
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,17 +11,20 @@ import android.widget.Scroller
 
 class ToggleButton : ViewGroup {
     var mScroller: Scroller
-    var mScrollerWidth: Int = 0;
+    var mScrollerWidth: Int = 0
     var isOpen: Boolean = false
-    var bgIcon: Bitmap? = null
-    var buttonIcon: Bitmap? = null
+    var H = 0
+    var W = 0
     var mSliderWidth = 0
-    var mLastX = 0;
+    var mLastX = 0
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        bgIcon = BitmapFactory.decodeResource(resources, R.mipmap.background)
-        buttonIcon = BitmapFactory.decodeResource(resources, R.mipmap.slide)
-
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeResource(resources, R.mipmap.background, options)
+        W = options.outWidth
+        H = options.outHeight
+        Log.d("zhouzheng", "${W} + ${H}")
         mScroller = Scroller(context)
         setBackgroundResource(R.mipmap.background)
         val imageView = ImageView(context)
@@ -40,7 +43,7 @@ class ToggleButton : ViewGroup {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        setMeasuredDimension(bgIcon!!.width, bgIcon!!.height)
+        setMeasuredDimension(W, H)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
