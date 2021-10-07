@@ -12,7 +12,7 @@ import android.widget.Scroller
 class ToggleButton : ViewGroup {
     var mScroller: Scroller
     var mScrollerWidth: Int = 0
-    var isOpen: Boolean = false
+    var end = 0
     var H = 0
     var W = 0
     var mSliderWidth = 0
@@ -29,15 +29,7 @@ class ToggleButton : ViewGroup {
         setBackgroundResource(R.mipmap.background)
         val imageView = ImageView(context)
         imageView.setBackgroundResource(R.mipmap.slide)
-        imageView.setOnClickListener {
-            if (isOpen) {
-                mScroller.startScroll(/* startX */ -mScrollerWidth,/* startY */0,/* dx */mScrollerWidth,/* dy */0,/* duration */500)
-            } else {
-                mScroller.startScroll(/* startX */ 0,/* startY */0,/* dx */-mScrollerWidth,/* dy */0,/* duration */500)
-            }
-            isOpen = !isOpen
-            invalidate()
-        }
+        imageView.setOnClickListener { startScrollAnimation(end, getAnimationEnd()) }
         addView(imageView)
     }
 
@@ -73,6 +65,7 @@ class ToggleButton : ViewGroup {
                     mScroller.abortAnimation()
                 }
                 // 由于不是 viewgroup 不是 clickable。 此处true会直接消费该事件。接下来的背景move事件都会来这里消费
+                // 默认如果不拦截 down 在哪消费 move 在哪消费 （此处false 会回到 上级 第一个true）
                 // return true
             }
             MotionEvent.ACTION_MOVE -> {
@@ -89,27 +82,25 @@ class ToggleButton : ViewGroup {
                 return true
             }
             MotionEvent.ACTION_UP -> {
-                //autoScroll()
-                val bound = -measuredWidth / 4
-                var deltaX = 0
-                if (scrollX < bound) {
-                    deltaX = -mScrollerWidth - scrollX
-                    if (!isOpen) {
-                        isOpen = true
-                    }
-                }
-                if (scrollX >= bound) {
-                    deltaX = -scrollX
-                    if (isOpen) {
-                        isOpen = false
-                    }
-                }
-                mScroller.startScroll(/* startX */ scrollX,/* startY */0,/* dx */deltaX,/* dy */0,/* duration */500)
-                invalidate()
+                startScrollAnimation(scrollX, getAnimationEnd())
                 mLastX = x
                 return true
             }
         }
-        return false
+//        mLastX = x
+        return super.onTouchEvent(ev)
+    }
+
+    fun getAnimationEnd() : Int {
+        end = 0
+        if (scrollX < -measuredWidth / 4) {
+            end = -mScrollerWidth
+        }
+        return end
+    }
+
+    fun startScrollAnimation(start: Int, end: Int) {
+        mScroller.startScroll(/* startX */ start,/* startY */0,/* dx */end - start,/* dy */0,/* duration */500)
+        invalidate()
     }
 }
