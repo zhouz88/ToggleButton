@@ -11,4 +11,8 @@
 ————————————————
 版权声明：本文为CSDN博主「程序员的自我反思」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/a553181867/article/details/51583060
-https://blog.csdn.net/a553181867/article/details/51583060
+https://blog.csdn.net/a553181867/article/details/51583060viwe
+
+
+vp2 使用 recyclerview 详解
+https://juejin.cn/post/6844903984927342600
