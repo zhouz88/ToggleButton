@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Scroller
 
-class ToggleButton : ViewGroup {
+class ToggleButton2 : ViewGroup {
     var mScroller: Scroller
     var mScrollerWidth: Int = 0
     var end = 0
@@ -37,17 +37,19 @@ class ToggleButton : ViewGroup {
         addView(imageView)
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        Log.d("zhouzheng", "measure0 开始")
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        setMeasuredDimension(W, H)
-        Log.d("zhouzheng", "measure0 结束")
+        override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+            Log.d("zhouzheng", "measure2 开始")
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+            setMeasuredDimension(W, H)
+            Log.d("zhouzheng", "measure2 结束")
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        Log.d("zhouzheng", "onlayout2 开始")
         mSliderWidth = measuredWidth / 2
         mScrollerWidth = measuredWidth - mSliderWidth
         getChildAt(0).layout(0, 0, mSliderWidth, measuredHeight)
+        Log.d("zhouzheng", "onlayout2 开始")
     }
 
     override fun computeScroll() {
@@ -120,14 +122,9 @@ class ToggleButton : ViewGroup {
         invalidate()
     }
 
-    override fun invalidate() {
-        super.invalidate()
-    }
-
-
     override fun dispatchDraw(canvas: Canvas?) {
-        Log.d("zhouzheng", "draw0 开始")
+        Log.d("zhouzheng", "draw2 开始")
         super.dispatchDraw(canvas)
-        Log.d("zhouzheng", "draw0 结束")
+        Log.d("zhouzheng", "draw2 结束")
     }
 }
