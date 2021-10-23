@@ -68,7 +68,7 @@ class ToggleButton : ViewGroup {
                 if (!mScroller.isFinished) {
                     mScroller.abortAnimation()
                 }
-                // 由于不是 viewgroup 不是 clickable。 此处true会直接消费该事件。接下来的背景move事件都会来这里消费
+                // 由于不是 viewgroup 没设置 clickable。 此处true会直接消费该事件。接下来的背景move事件都会来这里消费
                 // 默认如果不拦截 down 在哪消费 move 在哪消费 （此处false 会回到 上级 第一个true）
                 // return true
             }
